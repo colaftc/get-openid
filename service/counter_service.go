@@ -30,6 +30,19 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, data)
 }
 
+func OpenidHandler(w http.ResponseWriter, r *http.Request) {
+	openid := r.Header.Get("X-WX-OPENID")
+	msg, err := json.Marshal(map[string]interface{}{
+		"openid": openid,
+	})
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(msg)
+}
+
 // CounterHandler 计数器接口
 func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
